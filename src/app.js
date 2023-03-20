@@ -1,31 +1,22 @@
 import express from "express";
 import fs from "fs"
-import moment from "moment"
 
 const app = express()
 const repositoryCatraca = [];
 const arquivo = [];
+let randomWeight = Math.floor(Math.random() * (120 - 70) + 70)
+let randoBodyTemp = Math.floor(Math.random() * (39 - 35.5) + 35.5)
+let randomHeight = Math.floor(Math.random() * (210 - 100) + 100)
+let randomAge = Math.floor(Math.random() * (100 - 18) + 18)
 let i = 0;
 
 while(i < 10){
     const user = {
-    name: "Jhon Doe",
-    age: 22,
-    height: `${Math.floor(Math.random() * 210) + 100} cm`,
-    weight: [
-        Math.floor(Math.random() * (120 - 70) + 70), 
-        Math.floor(Math.random() * (120 - 70) + 70), 
-        Math.floor(Math.random() * (120 - 70) + 70), 
-        Math.floor(Math.random() * (120 - 70) + 70), 
-        Math.floor(Math.random() * (120 - 70) + 70)
-    ],
-    bodyTemp: [
-        Math.floor(Math.random() * (39 - 35.5) + 35.5), 
-        Math.floor(Math.random() * (39 - 35.5) + 35.5), 
-        Math.floor(Math.random() * (39 - 35.5) + 35.5), 
-        Math.floor(Math.random() * (39 - 35.5) + 35.5), 
-        Math.floor(Math.random() * (39 - 35.5) + 35.5)
-    ],
+    name: `Jhon Doe ${i}`,
+    age: randomAge,
+    height: `${randomHeight} cm`,
+    weight: [randomWeight, randomWeight, randomWeight, randomWeight, randomWeight],
+    bodyTemp: [randoBodyTemp, randoBodyTemp, randoBodyTemp, randoBodyTemp, randoBodyTemp],
     }
     repositoryCatraca.push(user)
     i++
@@ -53,10 +44,8 @@ for(let i = 0; i<repositoryCatraca.length; i++){
 }
 
 const dir = "./data/"
-const filename = `Catraca_${moment()}`
+const filename = `Catraca_${new Date(Date.now()).valueOf()}`
 const filePath = `${dir}_${filename}`;
-
-
 
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
