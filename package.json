@@ -1,0 +1,19 @@
+{
+  "name": "atividae",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon .",
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-cron": "^3.0.2",
+    "nodemon": "^2.0.21"
+  }
+}
