@@ -1,29 +1,73 @@
 import express from "express"
 import { barDoLeo } from "./config/bar.js"
-import { Product } from "./classes/products.js"
-import { GenerateNumbers } from "./utils/generateRandom.js"
+import { compareCrescente, compareDecrescente } from "./utils/compare.js"
 const app = express()
 
-// instance of GenerateNumbers
-const randomNum = new GenerateNumbers()
-
-// create products
-const cerveja = new Product(barDoLeo, "Cerveja", randomNum.price(5, 15), randomNum.quantity(50, 100));
-const pinga = new Product(barDoLeo, "Pinga", randomNum.price(5, 10), randomNum.quantity(5, 15));
-const vodka = new Product(barDoLeo, "Vodka", randomNum.price(40, 160), randomNum.quantity(10, 20));
-const wiskhey = new Product(barDoLeo, "Wiskhey", randomNum.price(100, 250), randomNum.quantity(5, 15));
-const vinho = new Product(barDoLeo, "Vinho", randomNum.price(40, 1000), randomNum.quantity(8, 15));
-const gin = new Product(barDoLeo, "Gin", randomNum.price(80, 160), randomNum.quantity(5, 15));
-const tequila = new Product(barDoLeo, "Tequila", randomNum.price(100, 120), randomNum.quantity(5, 10));
-const campari = new Product(barDoLeo, "Campari", randomNum.price(40, 60), randomNum.quantity(5, 10));
-const montila = new Product(barDoLeo, "Montila", randomNum.price(20, 35), randomNum.quantity(20, 40));
-const corote = new Product(barDoLeo, "Corote", randomNum.price(5, 10), randomNum.quantity(10, 15));
+// vendas
+barDoLeo.sell("Cerveja", 10, "Joey")
+barDoLeo.sell("Wiskhey", 5, "Vitor")
+barDoLeo.sell("Tequila", 1, "Kendy")
+barDoLeo.sell("Gin", 1, "Joey")
+barDoLeo.sell("Corote", 2, "Vitor")
+barDoLeo.sell("Campari", 1000, "Kendy")
+barDoLeo.sell("Cerveja", 10, "Joey")
+barDoLeo.sell("Wiskhey", 5, "Vitor")
+barDoLeo.sell("Tequila", 1, "Kendy")
+barDoLeo.sell("Gin", 1, "Joey")
+barDoLeo.sell("Corote", 2, "Vitor")
+barDoLeo.sell("Campari", 1000, "Kendy")
+barDoLeo.sell("Cerveja", 10, "Joey")
+barDoLeo.sell("Wiskhey", 5, "Vitor")
+barDoLeo.sell("Tequila", 1, "Kendy")
+barDoLeo.sell("Gin", 1, "Joey")
+barDoLeo.sell("Corote", 2, "Vitor")
+barDoLeo.sell("Campari", 1000, "Kendy")
 
 // MAIN
-// big o notaion
-// gerar no console
 
+// Apresentando o BAR DO LEO
 console.log(barDoLeo)
-const array = barDoLeo.products
+
+// big o notaion and sort
+const sortBalancoCres = (balanco) => {
+    let i, j;
+    let temp;
+    for (i = 0; i < balanco.length - 1; i++) {
+        for (j = i + 1; j < balanco.length; j++) {
+            if (compareCrescente(balanco[i], balanco[j]) > 0) {
+                temp = balanco[i];
+                balanco[i] = balanco[j];
+                balanco[j] = temp;
+            }
+        }
+    }
+    return balanco
+}
+
+function sortBalancoDesc(balanco) {
+    let i, j;
+    let temp;
+    for (i = 0; i < balanco.length - 1; i++) {
+        for (j = i + 1; j < balanco.length; j++) {
+            if (compareDecrescente(balanco[i], balanco[j]) > 0) {
+                temp = balanco[i];
+                balanco[i] = balanco[j];
+                balanco[j] = temp;
+            }
+        }
+    }
+    return balanco;
+}
+
+// imprimir o balanço ordenado por ordem crescente de valor
+console.log({ Balanco_Crescente: sortBalancoCres(barDoLeo.balanco) })
+console.log({ Balanco_Decrescente: sortBalancoDesc(barDoLeo.balanco) })
+
+
+// Gerando comandas
+console.log(barDoLeo.gerarComanda("Vitor"))
+console.log(barDoLeo.gerarComanda("Joey"))
+console.log(barDoLeo.gerarComanda("Kendy"))
+
 
 export { app }
