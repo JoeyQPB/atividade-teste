@@ -1,68 +1,73 @@
-import express from "express";
-import fs from "fs"
-
+import express from "express"
+import { barDoLeo } from "./config/bar.js"
+import { compareCrescente, compareDecrescente } from "./utils/compare.js"
 const app = express()
-const repositoryCatraca = [];
-const arquivo = [];
-let randomWeight = Math.floor(Math.random() * (120 - 70) + 70)
-let randoBodyTemp = Math.floor(Math.random() * (39 - 35.5) + 35.5)
-let randomHeight = Math.floor(Math.random() * (210 - 100) + 100)
-let randomAge = Math.floor(Math.random() * (100 - 18) + 18)
-let i = 0;
 
-while (i < 1) {
-  const user = {
-    name: `Jhon Doe ${i}`,
-    age: randomAge,
-    height: `${randomHeight} cm`,
-    weight: [randomWeight, randomWeight, randomWeight, randomWeight, randomWeight],
-    bodyTemp: [randoBodyTemp, randoBodyTemp, randoBodyTemp, randoBodyTemp, randoBodyTemp],
-  }
-  repositoryCatraca.push(user)
-  i++
-  console.log(user)
+// vendas
+barDoLeo.sell("Cerveja", 10, "Joey")
+barDoLeo.sell("Wiskhey", 5, "Vitor")
+barDoLeo.sell("Tequila", 1, "Kendy")
+barDoLeo.sell("Gin", 1, "Joey")
+barDoLeo.sell("Corote", 2, "Vitor")
+barDoLeo.sell("Campari", 1000, "Kendy")
+barDoLeo.sell("Cerveja", 10, "Joey")
+barDoLeo.sell("Wiskhey", 5, "Vitor")
+barDoLeo.sell("Tequila", 1, "Kendy")
+barDoLeo.sell("Gin", 1, "Joey")
+barDoLeo.sell("Corote", 2, "Vitor")
+barDoLeo.sell("Campari", 1000, "Kendy")
+barDoLeo.sell("Cerveja", 10, "Joey")
+barDoLeo.sell("Wiskhey", 5, "Vitor")
+barDoLeo.sell("Tequila", 1, "Kendy")
+barDoLeo.sell("Gin", 1, "Joey")
+barDoLeo.sell("Corote", 2, "Vitor")
+barDoLeo.sell("Campari", 1000, "Kendy")
+
+// MAIN
+
+// Apresentando o BAR DO LEO
+console.log(barDoLeo)
+
+// big o notaion and sort
+const sortBalancoCres = (balanco) => {
+    let i, j;
+    let temp;
+    for (i = 0; i < balanco.length - 1; i++) {
+        for (j = i + 1; j < balanco.length; j++) {
+            if (compareCrescente(balanco[i], balanco[j]) > 0) {
+                temp = balanco[i];
+                balanco[i] = balanco[j];
+                balanco[j] = temp;
+            }
+        }
+    }
+    return balanco
 }
 
-for (let i = 0; i < repositoryCatraca.length; i++) {
-  let name = repositoryCatraca[i].name;
-  let age = repositoryCatraca[i].age;
-  let height = repositoryCatraca[i].height;
-  let weightMedia = 0
-  let bodyTempMedia = 0
-
-  for (let j = 0; j < repositoryCatraca[i].weight.length; j++) {
-    weightMedia = repositoryCatraca[i].weight[j] + weightMedia
-  }
-
-  weightMedia = weightMedia / repositoryCatraca[i].weight.length
-
-  let qtd = 1;
-  bodyTempMedia = repositoryCatraca[i].bodyTemp.reduce((acc, el, i) => {
-    qtd = i + 1
-    return acc + el
-  })
-  bodyTempMedia = bodyTempMedia / qtd
-
-  const obj = { name, age, height, weightMedia, bodyTempMedia }
-  arquivo.push(obj)
+function sortBalancoDesc(balanco) {
+    let i, j;
+    let temp;
+    for (i = 0; i < balanco.length - 1; i++) {
+        for (j = i + 1; j < balanco.length; j++) {
+            if (compareDecrescente(balanco[i], balanco[j]) > 0) {
+                temp = balanco[i];
+                balanco[i] = balanco[j];
+                balanco[j] = temp;
+            }
+        }
+    }
+    return balanco;
 }
 
-// const dir = "./data/"
-// const filename = `Catraca_${new Date(Date.now()).valueOf()}`
-// const filePath = `${dir}_${filename}`;
+// imprimir o balanço ordenado por ordem crescente de valor
+console.log({ Balanco_Crescente: sortBalancoCres(barDoLeo.balanco) })
+console.log({ Balanco_Decrescente: sortBalancoDesc(barDoLeo.balanco) })
 
-// if (!fs.existsSync(dir)) {
-//   fs.mkdirSync(dir);
-// }
 
-// fs.writeFile(filePath, JSON.stringify(arquivo), (err) => {
-//   if (err) {
-//     console.error(err)
-//     return
-//   }
-//   console.log('Arquivo gravado com sucesso!');
-// })
+// Gerando comandas
+console.log(barDoLeo.gerarComanda("Vitor"))
+console.log(barDoLeo.gerarComanda("Joey"))
+console.log(barDoLeo.gerarComanda("Kendy"))
 
-console.log(arquivo)
 
 export { app }
