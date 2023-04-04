@@ -45,13 +45,57 @@ class Bar {
     }
 
     gerarComanda(cliente) {
-        let valorTotal = 0
+        let valorTotal = 0;
         for (let i = 0; i < this.balanco.length; i++) {
             if (this.balanco[i].Cliente === cliente) {
                 valorTotal += this.balanco[i].valor
             }
         }
-        return `[>] O valor total do cliente ${cliente} foi de ${valorTotal.toFixed(2)} `;
+
+        let reais = []
+        let centavos = []
+
+        valorTotal = valorTotal.toFixed(2)
+        const partes = valorTotal.toString().split('.');
+
+        for (let i = 0; i < partes.length; i++) {
+            if (partes[i].length > 5) return "MUITO MONEY"
+            for (let j = 0; j < partes.length; j++) {
+                if (i === 1) {
+                    const partesCents = partes[i].split("").reverse()
+                    for (let k = 0; k < partes[i].length; k++) {
+                        centavos.push(partesCents[k])
+                    }
+                }
+
+                if (i === 0) {
+                    const reaisInvertidos = partes[i].split('').reverse()
+                    for (let k = 0; k < partes[i].length; k++) {
+                        if (reais.length === reaisInvertidos.length) break
+                        reais.push(reaisInvertidos[k])
+                    }
+                }
+
+            }
+        }
+
+        const conta = {
+            dezenas_de_milhar: reais[4] || 0,
+            unidades_de_milhar: reais[3] || 0,
+            unidades_de_cententa: reais[2] || 0,
+            unidades_de_dezena: reais[1] || 0,
+            unidades: reais[0] || 0,
+            dezenas_de_cents: centavos[1] || 0,
+            unidades_de_cents: centavos[0] || 0,
+        }
+        return `[>] O valor total do cliente ${cliente} foi de ${valorTotal},
+            dezenas de milhar: ${conta.dezenas_de_milhar},
+            unidades de milhar: ${conta.unidades_de_milhar},
+            unidades de cententa: ${conta.unidades_de_cententa},
+            unidades de dezena: ${conta.unidades_de_dezena},
+            unidades: ${conta.unidades},
+            dezenas de cents: ${conta.dezenas_de_cents},
+            unidades de cents: ${conta.unidades_de_cents}`;
     }
 
 }
